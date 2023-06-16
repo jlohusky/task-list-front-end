@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import Task from './Task';
 import './TaskList.css';
 
-const TaskList = ({ tasks }) => {
-  const getTaskListJSX = (tasks) => {
+const TaskList = (props) => {
+  const tasks = props.tasks;
+
+  const getTaskListJSX = (tasks, updateIsComplete) => {
     return tasks.map((task) => {
       return (
         <Task
@@ -12,11 +14,12 @@ const TaskList = ({ tasks }) => {
           id={task.id}
           title={task.title}
           isComplete={task.isComplete}
+          updateIsComplete={updateIsComplete}
         />
       );
     });
   };
-  return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks)}</ul>;
+  return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks, props.updateIsComplete)}</ul>;
 };
 
 TaskList.propTypes = {
@@ -27,6 +30,7 @@ TaskList.propTypes = {
       isComplete: PropTypes.bool.isRequired,
     })
   ).isRequired,
+  updateIsComplete: PropTypes.func
 };
 
 export default TaskList;
