@@ -30,7 +30,21 @@ const App = () => {
     })
 
     setTasks(updatedTasks);
-  }
+  };
+
+  const updateDelete = (taskId) => {
+    const updatedTasks = tasks.map(task => {
+      if (task.id !== taskId) {
+        return {...task};
+      }
+    });
+
+    const filteredUpdatedTasks = updatedTasks.filter(function (element) {
+      return element !== undefined;
+    });
+
+    setTasks(filteredUpdatedTasks);
+  };
 
   return (
     <div className="App">
@@ -41,6 +55,7 @@ const App = () => {
         <div>{<TaskList 
         tasks={tasks} 
         updateIsComplete={updateIsComplete}
+        updateDelete={updateDelete}
         />}</div>
       </main>
     </div>
