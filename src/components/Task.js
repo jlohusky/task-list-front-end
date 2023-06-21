@@ -9,7 +9,8 @@ const Task = (props) => {
 
   const toggleComplete = () => {
     setComplete(!complete);
-    props.updateIsComplete(props.id);
+    // props.updateIsComplete(props.id);
+    props.markComplete(props.id);
   };
 
   const toggleDelete = () => {
@@ -36,8 +37,9 @@ Task.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
-  updateIsComplete: PropTypes.func,
-  updateDelete: PropTypes.func
+  // updateIsComplete: PropTypes.func,
+  updateDelete: PropTypes.func,
+  markComplete: PropTypes.func
 };
 
 export default Task;

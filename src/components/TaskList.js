@@ -6,7 +6,7 @@ import './TaskList.css';
 const TaskList = (props) => {
   const tasks = props.tasks;
 
-  const getTaskListJSX = (tasks, updateIsComplete) => {
+  const getTaskListJSX = (tasks, markComplete) => {
     return tasks.map((task) => {
       return (
         <Task
@@ -14,13 +14,14 @@ const TaskList = (props) => {
           id={task.id}
           title={task.title}
           isComplete={task.isComplete}
-          updateIsComplete={updateIsComplete}
+          // updateIsComplete={updateIsComplete}
           updateDelete={props.updateDelete}
+          markComplete={markComplete}
         />
       );
     });
   };
-  return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks, props.updateIsComplete)}</ul>;
+  return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks, props.markComplete)}</ul>;
 };
 
 TaskList.propTypes = {
@@ -31,8 +32,9 @@ TaskList.propTypes = {
       isComplete: PropTypes.bool.isRequired,
     })
   ).isRequired,
-  updateIsComplete: PropTypes.func,
-  updateDelete: PropTypes.func
+  // updateIsComplete: PropTypes.func,
+  updateDelete: PropTypes.func,
+  markComplete:PropTypes.func
 };
 
 export default TaskList;

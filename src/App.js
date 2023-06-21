@@ -22,31 +22,47 @@ const App = () => {
     });
   }, []);
 
-  const updateIsComplete = (taskId) => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id === taskId) {
-        task.isComplete = !task.isComplete;
-        return {...task};
-      } else {
-        return {...task};
-      }
+  const markComplete = (taskId) => {
+    axios.patch(`https://task-list-api-c17.onrender.com/tasks/${taskId}/mark_complete`)
+    .then( (response) => {
+      console.log('success!', response.data);
+    })
+    .catch( (error) => {
+      console.log('error', error);
     });
-
-    setTasks(updatedTasks);
   };
 
+  // const updateIsComplete = (taskId) => {
+  //   const updatedTasks = tasks.map(task => {
+  //     if (task.id === taskId) {
+  //       task.isComplete = !task.isComplete;
+  //       return {...task};
+  //     } else {
+  //       return {...task};
+  //     }
+  //   });
+
+  //   setTasks(updatedTasks);
+  // };
+
   const updateDelete = (taskId) => {
-    const updatedTasks = tasks.map(task => {
-      if (task.id !== taskId) {
-        return {...task};
+    axios.delete(`https://task-list-api-c17.onrender.com/tasks/${taskId}`)
+    .then( (response) => {
+      const updatedTasks = tasks.map(task => {
+        if (task.id !== taskId) {
+          return {...task};
       }
     });
-
     const filteredUpdatedTasks = updatedTasks.filter(function (element) {
       return element !== undefined;
     });
 
+    console.log('sucess!', response.data);
     setTasks(filteredUpdatedTasks);
+    })
+    .catch( (error) => {
+      console.log('could not delete task', error, error.response)
+    });
   };
 
   return (
@@ -57,8 +73,9 @@ const App = () => {
       <main>
         <div>{<TaskList 
         tasks={tasks} 
-        updateIsComplete={updateIsComplete}
+        // updateIsComplete={updateIsComplete}
         updateDelete={updateDelete}
+        markComplete={markComplete}
         />}</div>
       </main>
     </div>
