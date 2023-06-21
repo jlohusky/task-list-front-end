@@ -1,33 +1,32 @@
 import React from 'react';
 import TaskList from './components/TaskList.js';
 import './App.css';
-import { useState } from 'react';
-
-const TASKS = [
-  {
-    id: 1,
-    title: 'Mow the lawn',
-    isComplete: false,
-  },
-  {
-    id: 2,
-    title: 'Cook Pasta',
-    isComplete: true,
-  },
-];
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const App = () => {
-  const [tasks, setTasks] = useState(TASKS);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect( () => {
+    axios.get('https://task-list-api-c17.onrender.com/tasks')
+    .then( (response) => {
+      const initialTasks = [];
+      console.log('success!', response.data);
+    })
+    .catch( (error) => {
+      console.log('error', error);
+    });
+  }, []);
 
   const updateIsComplete = (taskId) => {
     const updatedTasks = tasks.map(task => {
       if (task.id === taskId) {
         task.isComplete = !task.isComplete;
-        return {...task}
+        return {...task};
       } else {
-        return {...task}
+        return {...task};
       }
-    })
+    });
 
     setTasks(updatedTasks);
   };
