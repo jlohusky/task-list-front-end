@@ -11,6 +11,10 @@ const App = () => {
     axios.get('https://task-list-api-c17.onrender.com/tasks')
     .then( (response) => {
       const initialTasks = [];
+      response.data.forEach(task => {
+        initialTasks.push(task);
+      });
+      setTasks(initialTasks);
       console.log('success!', response.data);
     })
     .catch( (error) => {
