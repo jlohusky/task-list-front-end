@@ -1,5 +1,6 @@
 import React from 'react';
 import TaskList from './components/TaskList.js';
+import NewTaskForm from './components/NewTaskForm.js';
 import './App.css';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
@@ -7,7 +8,7 @@ import { useState, useEffect } from 'react';
 const App = () => {
   const [tasks, setTasks] = useState([]);
 
-  useEffect( () => {
+  const getTasks = () => {
     axios.get('https://task-list-api-c17.onrender.com/tasks')
     .then( (response) => {
       const initialTasks = [];
@@ -20,13 +21,23 @@ const App = () => {
     .catch( (error) => {
       console.log('error', error);
     });
-  }, []);
+  };
+
+  useEffect( () => {getTasks()}, []);
 
   const markComplete = (taskId) => {
     axios.patch(`https://task-list-api-c17.onrender.com/tasks/${taskId}/mark_complete`)
     .then( (response) => {
       console.log('success!', response.data);
     })
+    .catch( (error) => {
+      console.log('error', error);
+    });
+  };
+
+  const createTask = (newTask) => {
+    axios.post('https://task-list-api-c17.onrender.com/tasks', newTask)
+    .then( () => {getTasks()})
     .catch( (error) => {
       console.log('error', error);
     });
@@ -61,7 +72,7 @@ const App = () => {
     setTasks(filteredUpdatedTasks);
     })
     .catch( (error) => {
-      console.log('could not delete task', error, error.response)
+      console.log('could not delete task', error, error.response);
     });
   };
 
@@ -71,6 +82,8 @@ const App = () => {
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
+        <NewTaskForm
+        createTask={createTask}></NewTaskForm>
         <div>{<TaskList 
         tasks={tasks} 
         // updateIsComplete={updateIsComplete}
